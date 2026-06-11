@@ -5,18 +5,27 @@
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-Database-red)
 ![WinForms](https://img.shields.io/badge/Windows%20Forms-Desktop-green)
 
-![Arquitetura](docs/images/arquitetura-projeto.png)
-
 Sistema desktop desenvolvido em C# (.NET 8) para gerenciamento de chamados de manutenção em ambiente industrial farmacêutico.
+
+## Visão Geral da Arquitetura
+![Arquitetura](docs/images/arquitetura-projeto.png)
 
 ---
 
 ## Sobre o Projeto
 
-O Sistema de Controle de Chamados de Manutenção foi desenvolvido como um projeto pessoal de aprendizado e aplicação prática em uma empresa, a fim de centralizar o gerenciamento de ocorrências relacionadas a equipamentos laboratoriais e industriais. Essa ferramente permite o acompanhamento completo do ciclo de vida de um chamado pela equipe de manutenção e gestão, desde sua abertura até sua conclusão.
+O Sistema de Controle de Chamados de Manutenção foi desenvolvido como um projeto pessoal de aprendizado e aplicação prática em uma empresa, a fim de centralizar o gerenciamento de ocorrências relacionadas a equipamentos laboratoriais e industriais. Essa ferramenta permite o acompanhamento completo do ciclo de vida de um chamado pela equipe de manutenção e gestão, desde sua abertura até sua conclusão.
 
 O projeto foi construído utilizando arquitetura em camadas, SQL Server para persistência dos dados e um serviço independente para processamento assíncrono de notificações por e-mail (EmailProcessor).
 
+---
+## Objetivos
+
+- Centralizar o controle de chamados de manutenção.
+- Melhorar a rastreabilidade de intervenções.
+- Registrar histórico de comentários e anexos.
+- Automatizar notificações por e-mail.
+- Fornecer indicadores operacionais para manutenção.
 ---
 
 ## Principais Funcionalidades
@@ -73,7 +82,7 @@ O projeto foi construído utilizando arquitetura em camadas, SQL Server para per
 
 ---
 
-## Arquitetura
+## Arquitetura da Solução
 
 A aplicação utiliza arquitetura em camadas:
 
@@ -84,14 +93,95 @@ A aplicação utiliza arquitetura em camadas:
 
 Além disso, possui um serviço independente responsável pelo processamento da fila de e-mails.
 
-Documentação detalhada:
 
-* docs/arquitetura.md
-* docs/banco-dados.md
-* docs/fluxo-email.md
+```text
+SistemaManutencao
+│
+├── Aplicação Principal
+│   ├── Login
+│   ├── Painel de Chamados
+│   ├── Comentários
+│   ├── Anexos
+│   └── Finalização
+│
+├── SQL Server
+│
+└── EmailProcessor
+    ├── Windows Tray Application
+    ├── Email Queue
+    └── Outlook Automation
+```
+
+
+### Aplicação Principal
+Responsável pela operação diária do sistema.
+
+- Login de usuários
+- Abertura de chamados
+- Atendimento de chamados
+- Inclusão de comentários
+- Gerenciamento de anexos
+- Encerramento de chamados
+
+### SQL Server
+Banco de dados central da solução.
+
+Principais entidades:
+
+- Chamados
+- ChamadoAnexos
+- ChamadoComentarios
+- EmailQueue
+- Equipamentos
+- UsuariosSistema
+
+### EmailProcessor
+Aplicação auxiliar independente executada em segundo plano.
+
+#### Windows Tray Application
+Executa minimizada na bandeja do Windows.
+
+#### Email Queue
+Monitora a tabela `EmailQueue` em busca de mensagens pendentes.
+
+#### Outlook Automation
+Realiza o envio dos e-mails utilizando o Outlook instalado na máquina.
+
+## Fluxo da Solução
+
+```text
+Usuário
+   │
+   ▼
+SistemaManutencao
+   │
+   ▼
+SQL Server
+   │
+   ├── Chamados
+   ├── Comentários
+   ├── Anexos
+   └── EmailQueue
+            │
+            ▼
+     EmailProcessor
+            │
+            ▼
+         Outlook
+            │
+            ▼
+       Destinatário
+```
+
+
+
+## Documentação Complementar
+
+- [Arquitetura](docs/arquitetura.md)
+- [Banco de Dados](docs/banco-dados.md)
+- [Fluxo de E-mails](docs/fluxo-email.md)
 
 ---
-
 # Capturas de Tela
 
 ## Tela de Login
@@ -158,42 +248,13 @@ Menu Combobox
 
 ---
 
-## Funcionalidades Implementadas
-
-### Controle de Chamados
-
-* Abertura
-* Atendimento
-* Encerramento
-* Reabertura
-* Inativação
-
-### Controle de Comentários
-
-* Registro histórico
-* Controle por perfil (User | Técnico)
-* Bloqueio em chamados finalizados
-
-### Controle de Anexos
-
-* Upload
-* Download
-* Exclusão controlada (Técnico)
-
-### Processamento de E-mails
-
-* Fila assíncrona
-* Controle de tentativas
-* Registro de falhas
-* Integração com Outlook
-
----
-
 ## Status do Projeto
 
-Versão atual:
+Versão atual: **v1.1.1**
 
-**v1.1.1**
+Status: ✅ Em produção
+
+Última atualização: Junho/2026
 
 ---
 
@@ -209,10 +270,13 @@ Versão atual:
 
 Este repositório possui finalidade exclusivamente documental.
 
-O código-fonte completo encontra-se em repositório privado. O mesmo poderá ser disponibilizado para recrutadores, gestores técnicos ou avaliadores, mediante solicitação.
+O código-fonte completo permanece privado. 
+
+Caso necessário para avaliação técnica, demonstração ou processo seletivo, o acesso poderá ser concedido mediante solicitação.
 
 ---
 
 ## Autor
 
 Lucas Albuquerque
+Desenvolvedor do projeto, responsável pela análise, arquitetura, desenvolvimento, banco de dados, automação de notificações e documentação da solução.
