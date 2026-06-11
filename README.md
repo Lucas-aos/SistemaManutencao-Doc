@@ -13,9 +13,9 @@ Sistema desktop desenvolvido em C# (.NET 8) para gerenciamento de chamados de ma
 
 ## Sobre o Projeto
 
-O Sistema de Controle de Chamados de Manutenção foi desenvolvido para centralizar o gerenciamento de ocorrências relacionadas a equipamentos laboratoriais e industriais, permitindo o acompanhamento completo do ciclo de vida de um chamado, desde sua abertura até sua conclusão.
+O Sistema de Controle de Chamados de Manutenção foi desenvolvido como um projeto pessoal de aprendizado e aplicação prática em uma empresa, a fim de centralizar o gerenciamento de ocorrências relacionadas a equipamentos laboratoriais e industriais. Essa ferramente permite o acompanhamento completo do ciclo de vida de um chamado pela equipe de manutenção e gestão, desde sua abertura até sua conclusão.
 
-O projeto foi construído utilizando arquitetura em camadas, SQL Server para persistência dos dados e um serviço independente para processamento assíncrono de notificações por e-mail.
+O projeto foi construído utilizando arquitetura em camadas, SQL Server para persistência dos dados e um serviço independente para processamento assíncrono de notificações por e-mail (EmailProcessor).
 
 ---
 
@@ -47,13 +47,11 @@ O projeto foi construído utilizando arquitetura em camadas, SQL Server para per
 ### Gestão de Equipamentos
 
 * Cadastro de equipamentos
-* Controle de TAG
-* Controle de marca
-* Controle de ativação/desativação
+* Controle de sistemas ativos/inativos
 
 ### Notificações por E-mail
 
-* Geração automática de notificações
+* Geração automática de notificações por e-mail
 * Processamento assíncrono
 * Controle de tentativas
 * Registro de falhas
@@ -102,11 +100,18 @@ Documentação detalhada:
 
 ---
 
-## Painel Principal
+## Painel Principal (User)
+
+![Painel Principal](docs/images/painel-principal-user.png)
+
+---
+
+## Painel Principal (Técnico)
 
 ![Painel Principal](docs/images/painel-principal.png)
 
 ---
+
 ## Abertura de Chamado
 
 ![Abertura de Chamado](docs/images/abertura-1.png)
@@ -114,17 +119,26 @@ Documentação detalhada:
 ---
 
 ## Detalhamento de Chamado
+Painel do User
+![Detalhes do Chamado](docs/images/Detalhes-1-user.png)
+![Detalhes do Chamado](docs/images/Detalhes-2-user.png)
 
+Painel de Técnico
 ![Detalhes do Chamado](docs/images/Detalhes-1.png)
 ![Detalhes do Chamado](docs/images/Detalhes-2.png)
+
+Menu Combobox
+
 ![Detalhes do Chamado](docs/images/Detalhes-3.png)
 
 ---
+
 ## Filtro de Chamado
 
 ![Filtro de Chamado](docs/images/Filtro-chamados.png)
 
 ---
+
 ## Configuração de Equipamentos
 
 ![Configuração de Equipamentos](docs/images/equipamentos.png)
@@ -132,19 +146,17 @@ Documentação detalhada:
 
 ---
 
-## Arquitetura do Banco de Dados
+## Estrutura do Banco de Dados
 
 ![Arquitetura do Banco de Dados](docs/images/DiagramaBanco.png)
 
 ---
-
 
 ## Fluxo de Processamento de E-mails
 
 ![Fluxo de E-mails](docs/images/Fluxo-emails.png)
 
 ---
-
 
 ## Funcionalidades Implementadas
 
@@ -159,14 +171,14 @@ Documentação detalhada:
 ### Controle de Comentários
 
 * Registro histórico
-* Controle por perfil
+* Controle por perfil (User | Técnico)
 * Bloqueio em chamados finalizados
 
 ### Controle de Anexos
 
 * Upload
 * Download
-* Exclusão controlada
+* Exclusão controlada (Técnico)
 
 ### Processamento de E-mails
 
@@ -185,16 +197,22 @@ Versão atual:
 
 ---
 
+## Próximas alterações importantes
+
+* Consulta de Logs dentro do aplicação
+* Alteração de tipo de usuário dentro da aplicação
+* CRUD de usuários com autenticação JWT (ASP.NET Core)
+
+---
+
 ## Código-Fonte
 
 Este repositório possui finalidade exclusivamente documental.
 
-O código-fonte completo encontra-se em repositório privado.
-
-Disponível para recrutadores, gestores técnicos ou avaliadores mediante solicitação.
+O código-fonte completo encontra-se em repositório privado. O mesmo poderá ser disponibilizado para recrutadores, gestores técnicos ou avaliadores, mediante solicitação.
 
 ---
 
 ## Autor
 
-Lucas Oliveira
+Lucas Albuquerque
