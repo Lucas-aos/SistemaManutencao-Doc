@@ -1,179 +1,200 @@
 # Sistema de Controle de Chamados de Manutenção
 
-## Visão Geral
+![Status](https://img.shields.io/badge/Source%20Code-Private-blue)
+![.NET](https://img.shields.io/badge/.NET-8-purple)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-Database-red)
+![WinForms](https://img.shields.io/badge/Windows%20Forms-Desktop-green)
 
-Aplicação desktop desenvolvida em C# (.NET 8) para gerenciamento de chamados de manutenção em ambiente industrial farmacêutico.
+![Arquitetura](docs/images/arquitetura-projeto.png)
 
-O sistema foi criado para centralizar solicitações de manutenção, controlar o ciclo de vida dos chamados, registrar evidências técnicas, acompanhar tempo de parada de equipamentos e automatizar notificações por e-mail.
-
-O código-fonte completo permanece privado por conter regras de negócio e integrações internas da organização.
-
----
-
-## Objetivos do Projeto
-
-* Padronizar abertura e tratamento de chamados.
-* Controlar SLA de manutenção.
-* Registrar histórico de intervenções.
-* Permitir anexação de evidências.
-* Automatizar notificações por e-mail.
-* Disponibilizar indicadores para gestão.
+Sistema desktop desenvolvido em C# (.NET 8) para gerenciamento de chamados de manutenção em ambiente industrial farmacêutico.
 
 ---
 
-## Tecnologias Utilizadas
+## Sobre o Projeto
 
-### Backend
+O Sistema de Controle de Chamados de Manutenção foi desenvolvido para centralizar o gerenciamento de ocorrências relacionadas a equipamentos laboratoriais e industriais, permitindo o acompanhamento completo do ciclo de vida de um chamado, desde sua abertura até sua conclusão.
 
-* C#
-* .NET 8
-* Windows Forms
-
-### Banco de Dados
-
-* SQL Server
-
-### Comunicação
-
-* Outlook Interop
-* Processamento assíncrono de fila de e-mails
-
-### Arquitetura
-
-* Repository Pattern
-* Services Layer
-* Separação por responsabilidades
+O projeto foi construído utilizando arquitetura em camadas, SQL Server para persistência dos dados e um serviço independente para processamento assíncrono de notificações por e-mail.
 
 ---
 
 ## Principais Funcionalidades
 
-### Abertura de Chamados
-
-* Registro de equipamento.
-* TAG do equipamento.
-* Descrição do problema.
-* Data e hora da parada.
-
 ### Gestão de Chamados
 
-* Aberto
-* Em Atendimento
-* Finalizado
+* Abertura de chamados
+* Atendimento de chamados
+* Finalização de chamados
+* Reabertura de chamados
+* Exclusão/Inativação
+* Controle de status
 
-### Comentários
+### Gestão de Comentários
 
-* Histórico completo por chamado.
-* Controle por usuário.
+* Histórico completo de interações
+* Registro de usuário e data
+* Controle por perfil de acesso
+* Bloqueio de inclusão após finalização para usuários comuns
 
-### Anexos
+### Gestão de Anexos
 
-* PDF
-* PNG
-* JPG
-* JPEG
+* Upload de documentos
+* Download de anexos
+* Exclusão controlada por perfil
+* Armazenamento externo ao banco de dados
 
-Tipos de anexo:
+### Gestão de Equipamentos
 
-* Mensagem de Erro
-* Cromatograma
-* Resultado de Teste
-* Relatório Final
-* O.S.
-* Orçamento
-* Outros
+* Cadastro de equipamentos
+* Controle de TAG
+* Controle de marca
+* Controle de ativação/desativação
 
-### Controle de Permissões
+### Notificações por E-mail
 
-#### Usuário Comum
-
-* Abrir chamado
-* Consultar chamado
-* Adicionar comentários
-
-#### Técnico
-
-* Finalizar chamado
-* Excluir anexos
-* Excluir comentários
-* Acesso administrativo
-
-### Processamento Automático de E-mails
-
-Serviço executado em segundo plano responsável por:
-
-* Leitura de fila de e-mails
-* Envio automático via Outlook
+* Geração automática de notificações
+* Processamento assíncrono
 * Controle de tentativas
 * Registro de falhas
+* Rastreabilidade completa
 
 ---
 
-## Estrutura do Banco de Dados
+## Tecnologias Utilizadas
 
-### Tabelas Principais
-
-| Tabela             | Função                          |
-| ------------------ | ------------------------------- |
-| Chamados           | Registro principal dos chamados |
-| ChamadoComentarios | Histórico de comentários        |
-| ChamadoAnexos      | Evidências e documentos         |
-| Equipamentos       | Cadastro de equipamentos        |
-| UsuariosSistema    | Controle de usuários            |
-| EmailQueue         | Fila de envio de e-mails        |
-
----
-
-## Fluxo Operacional
-
-1. Usuário abre chamado.
-2. Chamado recebe status "Aberto".
-3. Técnico inicia atendimento.
-4. Chamado recebe status "Em Atendimento".
-5. Comentários e anexos são registrados.
-6. Técnico finaliza atendimento.
-7. Chamado recebe status "Finalizado".
-8. Sistema registra tempos de manutenção.
-9. Serviço de e-mail envia notificações.
+| Tecnologia               | Utilização                 |
+| ------------------------ | -------------------------- |
+| .NET 8                   | Aplicação principal        |
+| Windows Forms            | Interface gráfica          |
+| SQL Server               | Banco de dados             |
+| Outlook Interop          | Envio de e-mails           |
+| Windows Tray Application | Serviço de processamento   |
+| Git                      | Controle de versão         |
+| GitHub                   | Hospedagem da documentação |
 
 ---
 
-## Desafios Técnicos Resolvidos
+## Arquitetura
 
-### Controle de Concorrência
+A aplicação utiliza arquitetura em camadas:
 
-Implementação de fila de e-mails com prevenção de processamento duplicado.
+* Camada de Apresentação (WinForms)
+* Camada de Serviços
+* Camada de Repositórios
+* Camada de Dados (SQL Server)
 
-### Upload de Evidências
+Além disso, possui um serviço independente responsável pelo processamento da fila de e-mails.
 
-Armazenamento centralizado de anexos com validação de extensões.
+Documentação detalhada:
 
-### Processamento Assíncrono
-
-Execução contínua do serviço de e-mail utilizando Tasks e CancellationToken.
-
-### Segurança Operacional
-
-Separação de funcionalidades entre usuários comuns e técnicos.
+* docs/arquitetura.md
+* docs/banco-dados.md
+* docs/fluxo-email.md
 
 ---
 
-## Evolução do Projeto
+# Capturas de Tela
+
+## Tela de Login
+
+![Login](docs/images/login.png)
+
+---
+
+## Painel Principal
+
+![Painel Principal](docs/images/painel-principal.png)
+
+---
+## Abertura de Chamado
+
+![Abertura de Chamado](docs/images/abertura-1.png)
+
+---
+
+## Detalhamento de Chamado
+
+![Detalhes do Chamado](docs/images/Detalhes-1.png)
+![Detalhes do Chamado](docs/images/Detalhes-2.png)
+![Detalhes do Chamado](docs/images/Detalhes-3.png)
+
+---
+## Filtro de Chamado
+
+![Filtro de Chamado](docs/images/Filtro-chamados.png)
+
+---
+## Configuração de Equipamentos
+
+![Configuração de Equipamentos](docs/images/equipamentos.png)
+![Configuração de Equipamentos](docs/images/abertura-2.png)
+
+---
+
+## Arquitetura do Banco de Dados
+
+![Arquitetura do Banco de Dados](docs/images/DiagramaBanco.png)
+
+---
+
+
+## Fluxo de Processamento de E-mails
+
+![Fluxo de E-mails](docs/images/Fluxo-emails.png)
+
+---
+
+
+## Funcionalidades Implementadas
+
+### Controle de Chamados
+
+* Abertura
+* Atendimento
+* Encerramento
+* Reabertura
+* Inativação
+
+### Controle de Comentários
+
+* Registro histórico
+* Controle por perfil
+* Bloqueio em chamados finalizados
+
+### Controle de Anexos
+
+* Upload
+* Download
+* Exclusão controlada
+
+### Processamento de E-mails
+
+* Fila assíncrona
+* Controle de tentativas
+* Registro de falhas
+* Integração com Outlook
+
+---
+
+## Status do Projeto
 
 Versão atual:
 
-**1.1.1**
+**v1.1.1**
 
-Melhorias recentes:
+---
 
-* Inclusão de fila de e-mails.
-* Histórico de comentários.
-* Múltiplos tipos de anexos.
-* Controle de permissões.
-* Interface Tray para processamento em segundo plano.
+## Código-Fonte
+
+Este repositório possui finalidade exclusivamente documental.
+
+O código-fonte completo encontra-se em repositório privado.
+
+Disponível para recrutadores, gestores técnicos ou avaliadores mediante solicitação.
 
 ---
 
 ## Autor
 
-Projeto desenvolvido para suporte às operações de Controle de Qualidade, Engenharia e Manutenção de Equipamentos em ambiente industrial farmacêutico.
+Lucas Oliveira
