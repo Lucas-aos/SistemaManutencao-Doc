@@ -93,11 +93,12 @@ Atualmente não é utilizada pela aplicação em produção, pois o controle de 
 ---
 
 ## Relacionamentos
-
+```
 Chamados
 ├── ChamadoComentarios
 ├── ChamadoAnexos
 └── EmailQueue
+```
 
 ---
 
