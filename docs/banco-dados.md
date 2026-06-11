@@ -12,11 +12,13 @@ Armazena:
 * TAG
 * Marca
 * Módulo
-* Problema
-* Solução
-* Status
+* Problema reportado
+* Solução aplicada
+* Status do chamado
 * Horas de parada
 * Horas de manutenção
+* Usuário de abertura
+* Usuário de finalização
 
 ---
 
@@ -28,10 +30,10 @@ Chamado 1:N Comentários
 
 Armazena:
 
-* Usuário
+* Nome do usuário
 * Matrícula
 * Comentário
-* Data
+* Data e hora da inclusão
 
 ---
 
@@ -43,52 +45,50 @@ Chamado 1:N Anexos
 
 Armazena:
 
-* Nome original
-* Caminho físico
+* Nome original do arquivo
+* Caminho físico do documento
 * Tipo do anexo
-* Usuário de upload
-* Data
+* Usuário responsável pelo upload
+* Data de inclusão
 
 ---
 
 ### Equipamentos
 
-Cadastro de equipamentos.
+Cadastro de equipamentos disponíveis para abertura de chamados.
 
 Campos principais:
 
 * Nome
 * TAG
 * Marca
-* Ativo
-
----
-
-### UsuariosSistema
-
-Cadastro de usuários.
-
-Campos principais:
-
-* Nome
-* Matrícula
-* Perfil
-* Ativo
+* Status ativo/inativo
 
 ---
 
 ### EmailQueue
 
-Fila de processamento de e-mails.
+Fila de processamento assíncrono de notificações por e-mail.
 
 Campos principais:
 
 * Destinatário
 * Assunto
-* Corpo
-* Status
-* Tentativas
-* Erro
+* Corpo da mensagem
+* Status de processamento
+* Quantidade de tentativas
+* Mensagem de erro
+* Anexo associado
+
+---
+
+## Tabelas Auxiliares
+
+### UsuariosSistema
+
+Tabela prevista para futura implementação de gerenciamento de usuários.
+
+Atualmente não é utilizada pela aplicação em produção, pois o controle de acesso é realizado por sessão de usuário e perfil técnico.
 
 ---
 
@@ -96,21 +96,27 @@ Campos principais:
 
 Chamados
 ├── ChamadoComentarios
-└── ChamadoAnexos
-
-Chamados
+├── ChamadoAnexos
 └── EmailQueue
 
 ---
 
-## Estratégia de Anexos
+## Estratégia de Armazenamento de Anexos
 
-Os arquivos não são armazenados no banco.
+Os documentos não são armazenados diretamente no banco de dados.
 
 O banco mantém apenas:
 
-* Nome
+* Nome do arquivo
 * Caminho físico
-* Metadados
+* Metadados do anexo
 
-Os documentos ficam armazenados em diretório externo.
+Os arquivos são armazenados em diretório externo ao SQL Server, reduzindo o tamanho do banco e facilitando o gerenciamento dos documentos.
+
+---
+
+## Observações
+
+A solução foi projetada para manter o banco de dados enxuto, armazenando apenas informações transacionais e de rastreabilidade.
+
+Arquivos, logs operacionais e processamento de notificações são tratados por componentes externos especializados.
