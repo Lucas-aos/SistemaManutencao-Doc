@@ -279,4 +279,5 @@ Caso necessário para avaliação técnica, demonstração ou processo seletivo,
 ## Autor
 
 Lucas Albuquerque
-Desenvolvedor do projeto, responsável pela análise, arquitetura, desenvolvimento, banco de dados, automação de notificações e documentação da solução.
+
+Desenvolvedor do projeto, responsável pela análise, arquitetura, banco de dados, automação de notificações e documentação da solução.
